@@ -1,0 +1,59 @@
+# Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.cache/
+frontend/*.log
+
+# Backend / Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.venv/
+backend/.venv/
+backend/__pycache__/
+*.sqlite3
+
+# Environment / secrets
+.env
+.env.*
+*.local
+*.pem
+
+# Build artifacts
+coverage/
+*.tsbuildinfo
+dist/
+dist-ssr/
+
+# Local project data
+uploads/
+artifacts/
+output/
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Lock files can be kept if desired; uncomment to ignore if repo should not track them
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
