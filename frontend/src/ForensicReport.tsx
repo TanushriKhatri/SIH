@@ -1,129 +1,156 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function ForensicReport() {
-  const [generating, setGenerating] = useState(false);
-  const [done, setDone] = useState(false);
+export default function ForensicReport(): React.JSX.Element {
+  const navigate = useNavigate();
+  const [downloading, setDownloading] = useState<boolean>(false);
+  const [copiedHash, setCopiedHash] = useState<boolean>(false);
 
-  const generate = () => {
-    setGenerating(true);
-    setTimeout(() => {
-      setGenerating(false);
-      setDone(true);
-    }, 2500);
+  const masterSHA256 = '8f810aa7553b3b4f98129a0bc4c7183e29bb1802a450ce10993bcda4118029cb';
+  const pdfFileName = 'forensic_examination_report.pdf';
+  const pdfPath = `/${pdfFileName}`;
+  const videoUrl = 'https://drive.google.com/file/d/1mz7VLgiDazIbyuo16yE0Gkl8yXfa_MY4/view?usp=sharing';
+
+  const handleDownload = () => {
+    setDownloading(true);
+    // Trigger direct file download from public folder
+    const link = document.createElement('a');
+    link.href = pdfPath;
+    link.download = 'CASE-001_Server_Breach_Examination_Report.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => setDownloading(false), 800);
   };
-  
-  const generatePDF = () => {
-    const reportHTML = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Forensic Report - CASE-001</title>
-        <style>
-          body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.6; padding: 40px; }
-          h1 { color: #1a202c; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-          h2 { color: #2d3748; margin-top: 30px; }
-          .meta { margin-bottom: 40px; font-size: 14px; color: #718096; }
-          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-          th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
-          th { background-color: #f7fafc; font-weight: bold; }
-          .highlight { background-color: #ebf8ff; font-weight: bold; color: #2b6cb0; padding: 2px 4px; border-radius: 4px; }
-          .signature { margin-top: 60px; pt-10; border-top: 1px solid #cbd5e0; width: 300px; text-align: center; font-style: italic; }
-        </style>
-      </head>
-      <body>
-        <h1>Digital Forensic Analysis Report</h1>
-        <div class="meta">
-          <strong>Case ID:</strong> CASE-001 (Operation Nightfall)<br>
-          <strong>Date Generated:</strong> ${new Date().toLocaleString()}<br>
-          <strong>Investigator:</strong> Lead Analyst Smith<br>
-          <strong>Report Hash (SHA-256):</strong> 8f810aa7553b3b4f98129a0bc4c7183e
-        </div>
-        
-        <h2>1. Executive Summary</h2>
-        <p>A digital forensic acquisition and analysis was performed on a seized Dahua NVR system. The platform successfully extracted 3.6 TB of active video data across 16 channels, and successfully carved <strong>14,392 deleted fragments (5.1 GB)</strong> from unallocated space. Machine learning correlation identified 3 critical events within the recovered footage.</p>
-        
-        <h2>2. Evidence Profile</h2>
-        <table>
-          <tr><th>Device Type</th><td>Dahua NVR (Proprietary DHFS Format)</td></tr>
-          <tr><th>Physical Media</th><td>WD Purple 4TB (WD-WCC6Y6A)</td></tr>
-          <tr><th>Original Image MD5</th><td>7d79ce9b85bd11c1...</td></tr>
-          <tr><th>Acquisition Method</th><td>Write-Blocked Bit-Stream Copy (E01)</td></tr>
-        </table>
-        
-        <h2>3. Key AI Findings</h2>
-        <p>Object tracking and cross-camera correlation identified the primary subject entering from the North entrance, and subsequently tracked the subject into a <span class="highlight">recovered deleted fragment (FRG-9921)</span> at 14:31:05 on Channel 01.</p>
-        
-        <h2>4. Chain of Custody / Audit Trail</h2>
-        <table>
-          <tr><th>Time</th><th>Action</th><th>Cryptographic Verification</th></tr>
-          <tr><td>14:02:15</td><td>Write-Blocker Engaged</td><td>Software ATA locked</td></tr>
-          <tr><td>18:45:00</td><td>Acquisition Complete</td><td>Image saved as E01</td></tr>
-          <tr><td>18:50:33</td><td>Hash Verification</td><td>MD5/SHA256 Match Confirmed</td></tr>
-          <tr><td>09:12:00 (Next Day)</td><td>Recovery Engine Executed</td><td>14,392 fragments carved from unalloc space</td></tr>
-        </table>
-        
-        <div class="signature">
-          <br><br><br>
-          Digitally Signed / Investigator Signature
-        </div>
-        
-        <script>
-          window.onload = function() { window.print(); }
-        </script>
-      </body>
-      </html>
-    `;
 
-    const blob = new Blob([reportHTML], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    window.open(url, '_blank');
+  const handleCopyHash = () => {
+    navigator.clipboard.writeText(masterSHA256);
+    setCopiedHash(true);
+    setTimeout(() => setCopiedHash(false), 2000);
   };
 
   return (
-    <div className="max-w-4xl flex flex-col gap-6 items-center pt-10">
-      
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-100 mb-2">Final Forensic Report</h2>
-        <p className="text-gray-400">Compile all findings, chain of custody logs, and normalized video evidence into a court-ready package.</p>
+    <div className="max-w-5xl mx-auto flex flex-col gap-6 text-zinc-100 font-sans select-none pb-12">
+
+      {/* 1. Header Banner */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-zinc-800 p-6 shadow-2xl">
+        <div className="absolute top-0 right-0 w-96 h-full bg-gradient-to-l from-emerald-500/10 via-teal-500/5 to-transparent pointer-events-none" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-xs font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Phase 19 / Certified Case Deliverable
+              </span>
+              <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                OFFICIAL PDF REPOSITORY LINKED
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
+              Forensic Examination Report
+            </h1>
+            <p className="text-xs sm:text-sm text-zinc-300 mt-1 max-w-2xl leading-relaxed">
+              Download the court-certified PDF report containing physical drive acquisition logs, unallocated sector carving proofs, photographic evidence, and clickable video repository links.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('../chain-of-custody')}
+            className="self-start sm:self-auto bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 px-4 py-2 rounded-xl text-xs font-mono uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+          >
+            ← Custody Ledger
+          </button>
+        </div>
       </div>
 
-      {!generating && !done && (
-        <button onClick={generate} className="bg-primary-500 hover:bg-primary-400 text-white px-10 py-4 rounded-lg font-bold text-xl transition-all shadow-lg shadow-primary-500/20 hover:scale-105">
-          Generate Court-Ready Report
+      {/* 2. Main Action Card */}
+      <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-8 sm:p-12 flex flex-col items-center justify-center text-center gap-6 shadow-xl">
+        <div className="w-20 h-20 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center text-3xl font-bold shadow-lg shadow-teal-950/40">
+          PDF
+        </div>
+
+        <div className="max-w-lg">
+          <h2 className="text-xl font-bold text-white tracking-tight">
+            Certified Examination Report Ready
+          </h2>
+          <p className="text-xs sm:text-sm text-zinc-400 mt-1.5 leading-relaxed">
+            Ensure <span className="font-mono text-zinc-200">{pdfFileName}</span> is placed in your project's <span className="font-mono text-teal-300">public/</span> folder.
+          </p>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-md">
+          <button
+            onClick={handleDownload}
+            disabled={downloading}
+            className="w-full sm:flex-1 bg-gradient-to-r from-teal-500 via-emerald-400 to-teal-300 hover:brightness-110 active:scale-[0.98] text-zinc-950 font-black text-xs font-mono uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 transition-all cursor-pointer disabled:opacity-50 text-center"
+          >
+            {downloading ? 'Downloading...' : 'Download PDF Report ↓'}
+          </button>
+
+          <a
+            href={pdfPath}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-6 py-3.5 rounded-xl text-xs font-mono uppercase tracking-wider font-semibold transition-colors text-center"
+          >
+            Preview in Tab ↗
+          </a>
+        </div>
+      </div>
+
+      {/* 3. Evidentiary Manifest & Video Quick Link */}
+      <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-6 shadow-xl flex flex-col gap-4 font-mono text-xs">
+        <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
+          <span className="font-bold text-white uppercase text-sm">Package Evidentiary Manifest</span>
+          <button
+            onClick={handleCopyHash}
+            className="text-teal-300 hover:text-teal-200 cursor-pointer underline text-[11px]"
+          >
+            {copiedHash ? '✓ Checksum Copied' : 'Copy Root SHA-256'}
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 uppercase block">Target PDF File</span>
+            <span className="text-zinc-200 font-bold mt-0.5 block">{pdfPath}</span>
+          </div>
+          <div className="bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+            <span className="text-[10px] text-zinc-500 uppercase block">External Video Repository</span>
+            <a
+              href={videoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-teal-400 hover:underline font-bold mt-0.5 block truncate"
+            >
+              Google Drive Evidence Link ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="bg-zinc-950 p-3.5 rounded-xl border border-zinc-800">
+          <span className="text-[10px] text-zinc-500 uppercase block">Digital Evidence Root SHA-256</span>
+          <span className="text-zinc-200 break-all text-[11px] block mt-1">
+            {masterSHA256}
+          </span>
+        </div>
+      </div>
+
+      {/* 4. Return Home Bar */}
+      <div className="flex justify-between items-center bg-zinc-900/60 border border-zinc-800 p-4 rounded-xl font-mono text-xs">
+        <span className="text-zinc-400">
+          Investigation complete. All evidence archived in write-blocked storage.
+        </span>
+
+        <button
+          onClick={() => navigate('/')}
+          className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 px-5 py-2 rounded-xl uppercase tracking-wider font-semibold transition-colors cursor-pointer"
+        >
+          Close Case Session
         </button>
-      )}
-
-      {generating && (
-        <div className="flex flex-col items-center justify-center py-12 gap-6 w-full max-w-md bg-dark-800 rounded-lg border border-dark-600 shadow-xl">
-          <div className="w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
-          <div className="text-center">
-            <h3 className="font-bold text-gray-200">Compiling Report Package...</h3>
-            <p className="text-sm text-gray-500 mt-1">Exporting PDFs, validating final hashes, packaging video.</p>
-          </div>
-        </div>
-      )}
-
-      {done && (
-        <div className="w-full max-w-2xl bg-dark-800 border border-accent-500/50 rounded-lg p-8 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-2 bg-accent-500"></div>
-          
-          <div className="flex flex-col items-center text-center gap-4">
-            <div className="w-20 h-20 bg-accent-500/20 text-accent-500 rounded-full flex items-center justify-center text-4xl font-bold mb-2 border border-accent-500/30">✓</div>
-            <h3 className="text-2xl font-bold text-gray-100">Report Package Ready</h3>
-            <p className="text-gray-400">The forensic report has been compiled and cryptographically signed.</p>
-            
-            <div className="w-full bg-dark-900 border border-dark-700 rounded p-4 text-left mt-4 text-sm font-mono text-gray-400">
-               <div>Filename: CASE-001_Final_Report_Package.zip</div>
-               <div>Size: 6.2 GB</div>
-               <div>SHA-256: 8f810aa7553b3b4f...</div>
-            </div>
-            
-            <button onClick={generatePDF} className="mt-6 bg-accent-500 hover:bg-accent-600 text-dark-900 px-8 py-3 rounded font-bold text-lg transition-colors w-full">
-              Open & Download PDF Report
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
 
     </div>
   );
