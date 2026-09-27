@@ -108,9 +108,9 @@ export default function Landing(): React.JSX.Element {
 
             {/* High-Contrast Main Headline */}
             <h1 className="text-4xl sm:text-6xl font-black text-white leading-[1.08] tracking-tight mb-6 drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-              Forensic CCTV <br />
+              AI-Powered<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-blue-400 drop-shadow-[0_2px_15px_rgba(6,182,212,0.5)]">
-                Video Reconstruction & Triage
+                DVR/NVR Forensic Investigation & Evidence Reconstruction
               </span>
             </h1>
 
