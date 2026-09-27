@@ -75,9 +75,9 @@ export default function ForensicReport(): React.JSX.Element {
           <h2 className="text-xl font-bold text-white tracking-tight">
             Certified Examination Report Ready
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-400 mt-1.5 leading-relaxed">
+          {/* <p className="text-xs sm:text-sm text-zinc-400 mt-1.5 leading-relaxed">
             Ensure <span className="font-mono text-zinc-200">{pdfFileName}</span> is placed in your project's <span className="font-mono text-teal-300">public/</span> folder.
-          </p>
+          </p> */}
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-md">

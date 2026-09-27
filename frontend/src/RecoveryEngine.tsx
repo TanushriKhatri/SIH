@@ -35,7 +35,6 @@ export default function RecoveryEngine(): React.JSX.Element {
   const carvedCount = Math.min(step * 2878 + (step === 5 ? 2 : 0), 14392);
   const progressPercent = Math.min(step * 20, 100);
 
-  // Hex matrix visualization items representing carving clusters
   const hexCells = [
     { label: '0x00', found: step >= 1, val: step >= 1 ? 'DHAV' : '??' },
     { label: '0x04', found: step >= 2, val: step >= 2 ? '01BA' : '??' },
@@ -48,71 +47,81 @@ export default function RecoveryEngine(): React.JSX.Element {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto flex flex-col gap-4 text-zinc-100 font-sans select-none">
+    <div className="relative max-w-6xl mx-auto flex flex-col gap-6 text-zinc-100 font-sans select-none p-4 sm:p-6 bg-zinc-950/80 rounded-3xl border border-cyan-500/20 shadow-[0_0_50px_rgba(6,182,212,0.15)] backdrop-blur-xl overflow-hidden">
+      
+      {/* Background Cybernetic Ambient Glows */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header Card */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-800 pb-3.5">
+      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cyan-500/20 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-mono font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-              Phase 09 / Deep Video Carving
+          <div className="flex items-center gap-2.5 mb-1.5">
+            <span className="text-xs font-mono font-bold uppercase px-3 py-1 rounded-md bg-amber-500/10 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)] tracking-wider">
+              Phase 09 // Deep Video Carving
             </span>
-            <span className="text-xs text-zinc-400 font-mono flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-amber-400 animate-ping'}`} />
-              {isCompleted ? 'EXCAVATION COMPLETE' : `CARVING STAGE 0${Math.min(step + 1, 5)} OF 05`}
+            <span className="text-xs text-zinc-400 font-mono flex items-center gap-2 bg-zinc-900/80 border border-zinc-800 px-2.5 py-1 rounded-md">
+              <span className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]' : 'bg-amber-400 animate-ping'}`} />
+              <span className={isCompleted ? 'text-emerald-300 font-semibold' : 'text-amber-300 font-semibold'}>
+                {isCompleted ? 'EXCAVATION COMPLETE' : `CARVING STAGE 0${Math.min(step + 1, 5)} OF 05`}
+              </span>
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-amber-300 uppercase tracking-tight drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]">
             Recovery & Carving Engine
           </h1>
         </div>
 
         {/* Live Metrics */}
-        <div className="flex items-center gap-4 bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl text-xs font-mono">
+        <div className="flex items-center gap-5 bg-zinc-900/90 border border-cyan-500/30 px-5 py-2.5 rounded-2xl text-xs font-mono shadow-[0_0_20px_rgba(6,182,212,0.1)]">
           <div>
-            <span className="text-zinc-500 block text-[10px] uppercase">Carved Chunks</span>
-            <span className="text-amber-400 font-bold text-sm">{carvedCount.toLocaleString()}</span>
+            <span className="text-zinc-400 block text-[10px] uppercase tracking-wider">Carved Chunks</span>
+            <span className="text-amber-300 font-extrabold text-base drop-shadow-[0_0_8px_rgba(252,211,77,0.5)]">
+              {carvedCount.toLocaleString()}
+            </span>
           </div>
-          <div className="w-px h-6 bg-zinc-800" />
+          <div className="w-px h-8 bg-cyan-500/20" />
           <div>
-            <span className="text-zinc-500 block text-[10px] uppercase">Slack Carved</span>
-            <span className="text-emerald-400 font-bold text-sm">398.0 GB</span>
+            <span className="text-zinc-400 block text-[10px] uppercase tracking-wider">Slack Carved</span>
+            <span className="text-emerald-400 font-extrabold text-base drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+              398.0 GB
+            </span>
           </div>
         </div>
       </div>
 
       {/* Main Two-Column Cockpit */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5">
 
         {/* Left Column: Bitstream Laser Scanner Animation (5 Cols) */}
-        <div className="lg:col-span-5 bg-zinc-900/90 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between gap-3.5 shadow-xl">
+        <div className="lg:col-span-5 bg-zinc-900/80 border border-cyan-500/30 rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-2xl backdrop-blur-md">
 
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-            <span className="text-xs font-mono font-bold uppercase text-zinc-400">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 drop-shadow-[0_0_6px_rgba(103,232,249,0.5)]">
               Bitstream Laser Scanner
             </span>
-            <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-2 py-0.5 rounded">
+            <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950/80 border border-cyan-500/40 px-2.5 py-0.5 rounded shadow-[0_0_10px_rgba(6,182,212,0.3)]">
               LBA STREAM
             </span>
           </div>
 
           {/* Laser Sweep & Cluster Re-assembly Canvas */}
-          <div className="relative overflow-hidden rounded-xl bg-black border border-zinc-800 p-3.5 flex flex-col justify-between gap-3 min-h-[220px]">
+          <div className="relative overflow-hidden rounded-xl bg-black/90 border border-zinc-800 p-4 flex flex-col justify-between gap-4 min-h-[240px] shadow-inner">
 
-            {/* Animated Laser Scanning Bar (Horizontal Sweep) */}
+            {/* Glowing Laser Bar Animation */}
             {!isCompleted && (
-              <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#22d3ee] animate-bounce pointer-events-none z-10" />
+              <div className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#22d3ee,0_0_30px_#22d3ee] animate-[bounce_2s_infinite] pointer-events-none z-20" />
             )}
 
             {/* Audio/Video Waveform Oscilloscope Graphic */}
-            <div className="flex items-end justify-between gap-1 h-12 px-1 border-b border-zinc-800/80 pb-1">
+            <div className="flex items-end justify-between gap-1.5 h-14 px-1 border-b border-zinc-800/80 pb-2">
               {[40, 65, 30, 85, 95, 45, 70, 35, 60, 90, 50, 80, 65, 30, 75, 45].map((h, i) => (
                 <div
                   key={i}
                   className={`w-full rounded-t transition-all duration-300 ${(i / 16) * 5 <= step
-                      ? 'bg-emerald-400/90 shadow-sm shadow-emerald-400/50'
+                      ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]'
                       : !isCompleted
-                        ? 'bg-amber-400/60 animate-pulse'
+                        ? 'bg-amber-400/70 animate-pulse shadow-[0_0_8px_rgba(251,191,36,0.5)]'
                         : 'bg-zinc-800'
                     }`}
                   style={{ height: `${(i / 16) * 5 <= step ? h : Math.max(15, h * 0.3)}%` }}
@@ -126,39 +135,43 @@ export default function RecoveryEngine(): React.JSX.Element {
                 <div
                   key={idx}
                   className={`p-2 rounded-lg border transition-all duration-300 flex flex-col gap-0.5 ${cell.found
-                      ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-                      : 'bg-zinc-950/60 border-zinc-800 text-zinc-600'
+                      ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.25)]'
+                      : 'bg-zinc-950/80 border-zinc-800/80 text-zinc-600'
                     }`}
                 >
                   <span className="text-[9px] text-zinc-500">{cell.label}</span>
-                  <span className={`text-xs font-bold ${cell.found ? 'text-emerald-300 font-mono' : 'text-zinc-600'}`}>
+                  <span className={`text-xs font-bold ${cell.found ? 'text-emerald-300 font-mono drop-shadow-[0_0_6px_rgba(52,211,153,0.6)]' : 'text-zinc-600'}`}>
                     {cell.val}
                   </span>
                 </div>
               ))}
             </div>
 
-            {/* Bottom Stream Telemetry Bar */}
+            {/* Telemetry Bar */}
             <div className="flex justify-between items-center text-[10px] font-mono text-zinc-400 pt-1 border-t border-zinc-800/60">
               <span className="flex items-center gap-1.5">
-                <span className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-emerald-400' : 'bg-cyan-400 animate-ping'}`} />
-                {isCompleted ? 'PARITY VERIFIED' : 'SCANNING RAW EXTENTS...'}
+                <span className={`w-1.5 h-1.5 rounded-full ${isCompleted ? 'bg-emerald-400 shadow-[0_0_6px_#34d399]' : 'bg-cyan-400 animate-ping'}`} />
+                <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-cyan-400'}>
+                  {isCompleted ? 'PARITY VERIFIED' : 'SCANNING RAW EXTENTS...'}
+                </span>
               </span>
               <span className="text-zinc-500">SECTOR: 512B</span>
             </div>
           </div>
 
           {/* Excavation Progress Bar */}
-          <div className="flex flex-col gap-1.5 bg-zinc-950 p-3 rounded-xl border border-zinc-800">
+          <div className="flex flex-col gap-2 bg-zinc-950/90 p-3.5 rounded-xl border border-zinc-800 shadow-inner">
             <div className="flex justify-between text-xs font-mono">
-              <span className="text-zinc-400">CARVING CAPACITY</span>
-              <span className={isCompleted ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>
+              <span className="text-zinc-400 tracking-wider">CARVING CAPACITY</span>
+              <span className={isCompleted ? 'text-emerald-400 font-bold drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'text-amber-400 font-bold drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]'}>
                 {progressPercent}%
               </span>
             </div>
-            <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="w-full h-2.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800">
               <div
-                className={`h-full transition-all duration-500 ${isCompleted ? 'bg-emerald-500 shadow-sm shadow-emerald-500/50' : 'bg-gradient-to-r from-amber-500 via-amber-400 to-cyan-400'
+                className={`h-full transition-all duration-500 ${isCompleted
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_12px_#34d399]'
+                    : 'bg-gradient-to-r from-amber-500 via-cyan-400 to-teal-300 shadow-[0_0_12px_#22d3ee]'
                   }`}
                 style={{ width: `${progressPercent}%` }}
               />
@@ -168,19 +181,19 @@ export default function RecoveryEngine(): React.JSX.Element {
         </div>
 
         {/* Right Column: Execution Steps Pipeline (7 Cols) */}
-        <div className="lg:col-span-7 bg-zinc-900/90 border border-zinc-800 rounded-2xl p-4 flex flex-col justify-between gap-3 shadow-xl">
+        <div className="lg:col-span-7 bg-zinc-900/80 border border-cyan-500/30 rounded-2xl p-5 flex flex-col justify-between gap-4 shadow-2xl backdrop-blur-md">
 
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-            <span className="text-xs font-mono font-bold uppercase text-zinc-400">
+          <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 drop-shadow-[0_0_6px_rgba(103,232,249,0.5)]">
               Reconstruction Pipeline
             </span>
-            <span className="text-xs font-mono text-zinc-500">
-              Step {Math.min(step, 5)} / 05
+            <span className="text-xs font-mono text-zinc-400">
+              Step <span className="text-cyan-300 font-bold">{Math.min(step, 5)}</span> / 05
             </span>
           </div>
 
           {/* Compact Step Rows */}
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {steps.map((s, idx) => {
               const isDone = idx < step;
               const isCurrent = idx === step;
@@ -188,26 +201,30 @@ export default function RecoveryEngine(): React.JSX.Element {
               return (
                 <div
                   key={idx}
-                  className={`flex items-center justify-between p-2.5 sm:p-3 rounded-xl border transition-all duration-300 ${isCurrent
-                      ? 'border-amber-500/60 bg-amber-500/[0.08] shadow-sm'
+                  className={`flex items-center justify-between p-3 rounded-xl border transition-all duration-300 ${isCurrent
+                      ? 'border-amber-400/80 bg-amber-500/[0.12] shadow-[0_0_20px_rgba(245,158,11,0.2)] scale-[1.01]'
                       : isDone
-                        ? 'border-emerald-500/30 bg-zinc-950/60'
-                        : 'border-zinc-800/60 bg-zinc-950/30 opacity-40'
+                        ? 'border-emerald-500/40 bg-emerald-950/[0.15] shadow-[0_0_10px_rgba(16,185,129,0.08)]'
+                        : 'border-zinc-800/80 bg-zinc-950/40 opacity-40'
                     }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3.5">
                     {/* Status Pip */}
-                    <div className={`w-6 h-6 rounded-lg font-mono text-xs flex items-center justify-center font-bold shrink-0 ${isDone
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                    <div className={`w-7 h-7 rounded-lg font-mono text-xs flex items-center justify-center font-black shrink-0 transition-all ${isDone
+                        ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/60 shadow-[0_0_10px_rgba(52,211,153,0.3)]'
                         : isCurrent
-                          ? 'bg-amber-500 text-zinc-950 shadow-md shadow-amber-500/40'
-                          : 'bg-zinc-800 text-zinc-500'
+                          ? 'bg-amber-400 text-zinc-950 shadow-[0_0_12px_rgba(251,191,36,0.6)] animate-pulse'
+                          : 'bg-zinc-800 text-zinc-500 border border-zinc-700'
                       }`}>
                       {isDone ? '✓' : `0${idx + 1}`}
                     </div>
 
                     <div>
-                      <h4 className={`text-xs sm:text-sm font-bold tracking-tight ${isCurrent ? 'text-amber-200' : isDone ? 'text-zinc-100' : 'text-zinc-500'
+                      <h4 className={`text-xs sm:text-sm font-bold tracking-tight ${isCurrent
+                          ? 'text-amber-200 drop-shadow-[0_0_8px_rgba(253,230,138,0.5)]'
+                          : isDone
+                            ? 'text-zinc-100'
+                            : 'text-zinc-500'
                         }`}>
                         {s.name}
                       </h4>
@@ -219,10 +236,10 @@ export default function RecoveryEngine(): React.JSX.Element {
 
                   {/* Subsystem Code Tag */}
                   <div className="text-right shrink-0 hidden sm:block">
-                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded ${isCurrent
-                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse'
+                    <span className={`text-[10px] font-mono px-2.5 py-1 rounded-md transition-all ${isCurrent
+                        ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-[0_0_8px_rgba(245,158,11,0.3)] animate-pulse'
                         : isDone
-                          ? 'bg-zinc-800 text-emerald-400 border border-zinc-700'
+                          ? 'bg-zinc-800/80 text-emerald-400 border border-emerald-500/30'
                           : 'bg-zinc-900 text-zinc-600'
                       }`}>
                       {s.code}
@@ -235,20 +252,22 @@ export default function RecoveryEngine(): React.JSX.Element {
 
           {/* Action Row */}
           {isCompleted ? (
-            <div className="pt-2 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3 animate-in fade-in duration-300">
-              <div className="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+            <div className="pt-3 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-3">
+              <div className="text-xs font-mono text-emerald-400 flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                 <span>14,392 video blocks carved & reconstructed.</span>
               </div>
               <button
                 onClick={() => navigate('../fragment-explorer')}
-                className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-zinc-950 font-black text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-lg shadow-emerald-500/20 transition-all cursor-pointer whitespace-nowrap"
+                className="w-full sm:w-auto relative group overflow-hidden rounded-xl bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 p-0.5 text-zinc-950 font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-[0_0_20px_rgba(52,211,153,0.4)] hover:shadow-[0_0_30px_rgba(52,211,153,0.7)] cursor-pointer whitespace-nowrap"
               >
-                Explore Recovered Fragments →
+                <span className="block px-6 py-2.5 rounded-[10px] bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 group-hover:bg-opacity-0 transition-all font-mono font-bold text-zinc-950">
+                  Explore Recovered Fragments →
+                </span>
               </button>
             </div>
           ) : (
-            <div className="pt-2 border-t border-zinc-800 text-center text-xs font-mono text-zinc-500">
+            <div className="pt-3 border-t border-zinc-800 text-center text-xs font-mono text-zinc-500 animate-pulse">
               Carving engine scanning unallocated slack sectors...
             </div>
           )}
