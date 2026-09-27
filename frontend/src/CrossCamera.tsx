@@ -163,8 +163,8 @@ export default function CrossCamera(): React.JSX.Element {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 font-mono">
             <div className="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl flex flex-col justify-between gap-1 shadow-sm">
               <span className="text-xs text-zinc-400 uppercase font-semibold">Correlated Nodes</span>
-              <span className="text-2xl sm:text-3xl font-black text-indigo-400 mt-1">02 Feeds</span>
-              <span className="text-[11px] text-zinc-500">CH04 (Lobby) ↔ CH01 (Gate)</span>
+              <span className="text-2xl sm:text-3xl font-black text-indigo-400 mt-1">03 Feeds</span>
+              <span className="text-[11px] text-zinc-500">CH04 (Lobby) ↔ CH01 ↔ CH03</span>
             </div>
 
             <div className="bg-zinc-900/90 border border-zinc-800 p-4 rounded-xl flex flex-col justify-between gap-1 shadow-sm">

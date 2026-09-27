@@ -6,7 +6,6 @@ export default function CreateCase(): React.JSX.Element {
   const [caseId, setCaseId] = useState<string>(`CASE-00${Math.floor(Math.random() * 80) + 10}`);
   const [caseName, setCaseName] = useState<string>('');
   const [leadExaminer, setLeadExaminer] = useState<string>(localStorage.getItem('forensic_user') || 'Det. M. Vance');
-  const [facilityLocation, setFacilityLocation] = useState<string>('Sector 4 Data Center / Vault Alpha');
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleCreateCase = (e: React.FormEvent) => {
@@ -68,7 +67,7 @@ export default function CreateCase(): React.JSX.Element {
             Initialize New Forensic Investigation
           </h1>
           <p className="text-xs sm:text-sm text-zinc-400 mt-1 font-sans">
-            Configure primary case identifiers, lead examiner sign-off, and target incident location parameters.
+            Configure primary case identifiers and lead examiner sign-off parameters.
           </p>
         </div>
 
@@ -104,35 +103,19 @@ export default function CreateCase(): React.JSX.Element {
             </div>
           </div>
 
-          {/* Row 2: Relevant Metadata (Lead Examiner & Facility Location) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-mono uppercase font-bold text-zinc-400 mb-1.5">
-                Lead Forensic Examiner
-              </label>
-              <input
-                type="text"
-                value={leadExaminer}
-                onChange={e => setLeadExaminer(e.target.value)}
-                placeholder="e.g. Det. M. Vance (DF-8812)"
-                required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-teal-400 font-sans"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-mono uppercase font-bold text-zinc-400 mb-1.5">
-                Target Facility / Seizure Location
-              </label>
-              <input
-                type="text"
-                value={facilityLocation}
-                onChange={e => setFacilityLocation(e.target.value)}
-                placeholder="e.g. Sector 4 Data Center / Vault Alpha"
-                required
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-teal-400 font-sans"
-              />
-            </div>
+          {/* Row 2: Lead Forensic Examiner */}
+          <div>
+            <label className="block text-xs font-mono uppercase font-bold text-zinc-400 mb-1.5">
+              Lead Forensic Examiner
+            </label>
+            <input
+              type="text"
+              value={leadExaminer}
+              onChange={e => setLeadExaminer(e.target.value)}
+              placeholder="e.g. Det. M. Vance (DF-8812)"
+              required
+              className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-xs text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-teal-400 font-sans"
+            />
           </div>
 
           {/* Write-Blocker Status Indicator */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface TimelineEvent {
   id: string;
@@ -18,6 +18,8 @@ interface TimelineEvent {
 
 export default function Timeline(): React.JSX.Element {
   const navigate = useNavigate();
+  const { caseId } = useParams<{ caseId?: string }>();
+  const activeCase = caseId || 'CASE-001';
   const [analyzing, setAnalyzing] = useState<boolean>(true);
   const [selectedEvent, setSelectedEvent] = useState<number>(2);
 
@@ -44,7 +46,7 @@ export default function Timeline(): React.JSX.Element {
     {
       id: 'EV-VID-03',
       timeRaw: '14:28:14',
-      timeNormalized: '14:25:00 UTC',
+      timeNormalized: '14:28:14 UTC',
       channel: 'CH 04 (Lobby Entrance)',
       sourceType: 'Active Stream',
       badge: 'RECORDING START',
@@ -99,13 +101,10 @@ export default function Timeline(): React.JSX.Element {
 
           {!analyzing && (
             <button
-              onClick={() => navigate('../ai-investigation')}
-              className="self-start sm:self-auto bg-gradient-to-r from-indigo-500 via-teal-500 to-emerald-400 hover:brightness-110 active:scale-[0.98] text-zinc-950 font-black text-xs font-mono uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-500/20 transition-all cursor-pointer flex items-center gap-2.5 whitespace-nowrap"
+              onClick={() => navigate(`/case/${activeCase}/time-interval-filter`)}
+              className="self-start sm:self-auto bg-gradient-to-r from-teal-500 via-emerald-400 to-teal-300 hover:brightness-110 active:scale-[0.98] text-zinc-950 font-black text-xs font-mono uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-lg shadow-teal-500/20 transition-all cursor-pointer flex items-center gap-2.5 whitespace-nowrap"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-              </svg>
-              Send to AI Investigation →
+              <span>Configure Doubtful Time Interval →</span>
             </button>
           )}
         </div>
@@ -228,29 +227,32 @@ export default function Timeline(): React.JSX.Element {
 
                       {/* Interactive Pin Node */}
                       <div className="relative z-10 shrink-0 mt-1">
-                        <div className={`w-4 h-4 rounded-full transition-all duration-200 border-2 border-zinc-950 flex items-center justify-center ${isGap
+                        <div className={`w-4 h-4 rounded-full transition-all duration-200 border-2 border-zinc-950 flex items-center justify-center ${
+                          isGap
                             ? 'bg-amber-400 ring-4 ring-amber-500/20'
                             : evt.theme === 'cyan'
-                              ? 'bg-cyan-400 ring-4 ring-cyan-500/20'
-                              : 'bg-indigo-400 ring-4 ring-indigo-500/20'
-                          }`}>
+                            ? 'bg-cyan-400 ring-4 ring-cyan-500/20'
+                            : 'bg-indigo-400 ring-4 ring-indigo-500/20'
+                        }`}>
                           <div className="w-1.5 h-1.5 rounded-full bg-zinc-950" />
                         </div>
                       </div>
 
                       {/* Event Detail Container */}
-                      <div className={`flex-1 rounded-xl p-4 sm:p-5 border transition-all duration-200 ${isSelected
+                      <div className={`flex-1 rounded-xl p-4 sm:p-5 border transition-all duration-200 ${
+                        isSelected
                           ? isGap
                             ? 'bg-amber-950/20 border-amber-500/60 shadow-lg shadow-amber-950/20'
                             : 'bg-zinc-950 border-teal-500/60 shadow-lg shadow-teal-950/20'
                           : 'bg-zinc-950/70 border-zinc-800 hover:border-zinc-700'
-                        }`}>
+                      }`}>
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-zinc-800/80 pb-3">
                           <div className="flex items-center gap-2.5">
-                            <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${isGap
+                            <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                              isGap
                                 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                                 : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                              }`}>
+                            }`}>
                               {evt.badge}
                             </span>
                             <span className="text-sm sm:text-base font-bold text-white tracking-tight">
@@ -281,12 +283,13 @@ export default function Timeline(): React.JSX.Element {
 
                           <div className="w-full sm:w-48 bg-zinc-900 h-2 rounded-full overflow-hidden border border-zinc-800">
                             <div
-                              className={`h-full ${isGap
+                              className={`h-full ${
+                                isGap
                                   ? 'bg-gradient-to-r from-amber-500 to-yellow-400'
                                   : evt.theme === 'cyan'
-                                    ? 'bg-gradient-to-r from-cyan-500 to-teal-400'
-                                    : 'bg-gradient-to-r from-indigo-500 to-cyan-400'
-                                }`}
+                                  ? 'bg-gradient-to-r from-cyan-500 to-teal-400'
+                                  : 'bg-gradient-to-r from-indigo-500 to-cyan-400'
+                              }`}
                               style={{ width: idx === 0 ? '45%' : idx === 1 ? '70%' : '25%' }}
                             />
                           </div>
@@ -303,14 +306,14 @@ export default function Timeline(): React.JSX.Element {
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-zinc-900/60 border border-zinc-800 p-4 rounded-xl font-mono text-xs">
             <div className="flex items-center gap-2 text-zinc-400">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>Multi-camera timeline synchronized. Ready for autonomous AI incident investigation.</span>
+              <span>Multi-camera timeline synchronized. Ready for targeted temporal filtering.</span>
             </div>
 
             <button
-              onClick={() => navigate('../ai-investigation')}
-              className="w-full sm:w-auto bg-gradient-to-r from-indigo-500 via-teal-500 to-emerald-400 hover:brightness-110 active:scale-[0.98] text-zinc-950 font-black uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-lg shadow-indigo-500/20 transition-all cursor-pointer whitespace-nowrap"
+              onClick={() => navigate(`/case/${activeCase}/time-interval-filter`)}
+              className="w-full sm:w-auto bg-gradient-to-r from-teal-500 via-emerald-400 to-teal-300 hover:brightness-110 active:scale-[0.98] text-zinc-950 font-black uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-lg shadow-teal-500/20 transition-all cursor-pointer whitespace-nowrap"
             >
-              Dispatch to AI Investigation →
+              Configure Doubtful Time Interval →
             </button>
           </div>
 
